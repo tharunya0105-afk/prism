@@ -20,7 +20,7 @@ everything else travels as unreadable placeholders.
 ## Install
 
 ```bash
-npm install prism-sdk
+npm install @tharunya0105-afk/prism-sdk
 ```
 
 React bindings are optional (`react >= 18`).
@@ -28,7 +28,7 @@ React bindings are optional (`react >= 18`).
 ## Quick start
 
 ```ts
-import { Prism } from "prism-sdk";
+import { Prism } from "@tharunya0105-afk/prism-sdk";
 
 const prism = new Prism(); // built-in policies: email, phone, Aadhaar, PAN, cards, API keys…
 
@@ -98,7 +98,7 @@ Drop all placeholder mappings / inspect vault size.
 ## Custom policies
 
 ```ts
-import { Prism, type Policy } from "prism-sdk";
+import { Prism, type Policy } from "@tharunya0105-afk/prism-sdk";
 
 const projectCodes: Policy = {
   id: "project_codes",
@@ -133,7 +133,7 @@ const encryptedVault: Vault = {
 ## React
 
 ```tsx
-import { PrismProvider, usePrism, PrismTextArea } from "prism-sdk/react";
+import { PrismProvider, usePrism, PrismTextArea } from "@tharunya0105-afk/prism-sdk/react";
 
 function App() {
   return (

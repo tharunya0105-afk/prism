@@ -1,24 +1,49 @@
 {
-  "name": "prism-sdk",
+  "name": "@tharunya0105-afk/prism-sdk",
   "version": "0.1.0",
   "description": "AI Privacy Layer — protect sensitive data before it touches any AI. Redact, vault, and restore.",
+  "license": "MIT",
+  "author": "Tharunya Swaminathan",
   "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "import": "./src/index.ts"
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
     },
     "./react": {
-      "types": "./src/react.tsx",
-      "import": "./src/react.tsx"
+      "types": "./dist/esm/react.d.ts",
+      "import": "./dist/esm/react.js",
+      "require": "./dist/cjs/react.js"
     }
   },
-  "files": ["src"],
-  "keywords": ["privacy", "pii", "redaction", "ai", "llm", "masking", "security"],
-  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tharunya0105-afk/prism.git",
+    "directory": "prism-sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/tharunya0105-afk/prism/issues"
+  },
+  "homepage": "https://github.com/tharunya0105-afk/prism#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
+    "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && node scripts/fix-esm.mjs && node scripts/make-cjs-shim.mjs",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
   },
   "peerDependencies": {
     "react": ">=18"
