@@ -1,13 +1,17 @@
 # Prism
 
-**AI privacy layer** — redacts personal data before it reaches AI models, then restores it in the replies.
+![CI](https://github.com/tharunya0105-afk/prism/actions/workflows/ci.yml/badge.svg)
 
-## Projects in this repo
+**AI privacy layer** — redacts personal data before it reaches AI models, then restores it in the replies.
 
 | Path | What it is |
 | --- | --- |
 | [`prism-sdk/`](./prism-sdk) | The engine: zero-dependency TypeScript SDK. 9 built-in PII detectors (email, phone, Aadhaar, PAN, cards with Luhn, API keys, bearer tokens, URL secrets, IPv4), a session vault, and React bindings. 14 unit tests. |
 | [`prism-extension/`](./prism-extension) | Chrome (Manifest V3) extension wrapping the SDK. Protects typing in AI chat apps, patches `WebSocket.prototype.send` in the page's main world for socket-based transports, restores values in rendered replies, session-only vault. Verified end-to-end in real Chrome against LMArena. |
+
+<p align="center">
+  <img src="prism-extension/docs/popup.png" alt="Prism extension popup — session stats and active redaction policies" width="320">
+</p>
 
 > The blueprint-styled portfolio lives in its own repository: [`tharunya0105-afk/portfolio`](https://github.com/tharunya0105-afk/portfolio).
 
@@ -32,5 +36,9 @@ cd prism-extension && npm install && npm run build
 # Extension end-to-end suite (real Chrome via Puppeteer)
 cd prism-extension && npm run e2e
 ```
+
+The popup screenshot is regenerated with `node docs/screenshot.mjs` (from `prism-extension/`) —
+it renders the real built popup with a stubbed `chrome.runtime` and masked placeholder data,
+so no real secrets ever appear in the image.
 
 See each subproject's README for full docs.
