@@ -1,0 +1,23 @@
+node_modules/
+dist/
+*.local
+
+# build output of subprojects
+prism-extension/dist/
+prism-sdk/node_modules/
+prism-extension/node_modules/
+portfolio/
+
+# test artifacts / logs
+*.log
+/tmp/
+.e2e-screens/
+
+# environment & secrets
+.env
+.env.*
+*.pem
+*.key
+
+# tool-local workspace config
+.freebuff/

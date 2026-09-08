@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sdk:
+    name: SDK — tests + typecheck
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: prism-sdk
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: prism-sdk/package-lock.json
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+  extension:
+    name: Extension — typecheck + build + manifest check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: prism-extension
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: prism-extension/package-lock.json
+
+      - run: npm ci
+
+      - name: Build (icons + typecheck + popup/background + ws-bridge + content)
+        run: npm run build
+
+      - name: Verify dist contents
+        run: |
+          test -f dist/manifest.json
+          test -f dist/background.js
+          test -f dist/content.js
+          test -f dist/ws-bridge.js
+          test -f dist/popup/index.html
+          node -e "const m=require('./dist/manifest.json'); if(!m.content_scripts||!m.background) process.exit(1); console.log('manifest ok:', m.name, m.version)"

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Prism E2E harness — contenteditable chat simulator</title>
+    <style>
+      body { font-family: system-ui, sans-serif; background: #10161d; color: #e6edf3; padding: 24px; max-width: 640px; margin: 0 auto; }
+      h1 { font-size: 15px; letter-spacing: 0.04em; }
+      #log { border: 1px solid #1e2a36; border-radius: 8px; min-height: 160px; padding: 12px; margin: 12px 0; }
+      .msg { font-family: ui-monospace, monospace; font-size: 12.5px; padding: 6px 10px; border: 1px solid #17222c; border-radius: 6px; margin-bottom: 8px; background: #0d131a; }
+      #composer { border: 1px solid #1e2a36; border-radius: 8px; min-height: 44px; padding: 10px; outline: none; background: #0d131a; }
+      #composer:focus { border-color: #1e9e7d; }
+      code { color: #f5b84b; }
+    </style>
+  </head>
+  <body>
+    <h1>Prism E2E harness — <code>contenteditable</code> chat simulator</h1>
+    <div id="log"></div>
+    <div id="composer" contenteditable="true" role="textbox" aria-label="Message"></div>
+    <script>
+      window.__received = "";
+      var log = document.getElementById("log");
+      var composer = document.getElementById("composer");
+      function submit() {
+        var text = composer.innerText.trim();
+        window.__received = text; // what the app would actually send
+        var entry = document.createElement("div");
+        entry.className = "msg";
+        entry.textContent = text; // echo into history, like a real chat app
+        log.appendChild(entry);
+        composer.innerText = "";
+      }
+      composer.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); submit(); }
+      });
+    </script>
+  </body>
+</html>
